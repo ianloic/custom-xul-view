@@ -50,7 +50,7 @@ function ButtonCell(property, width, transform) {
   }
 }
 
-function create_columns() {
+function column_factory() {
   return [
     new LabelCell(SBProperties.trackNumber, 30),
     new LabelCell(SBProperties.trackName, 150), 
@@ -63,7 +63,7 @@ function create_columns() {
 
 function Row() {
   this.element = document.createElement("hbox");
-  this._columns = create_columns();
+  this._columns = column_factory();
 
   for (var i=0; i<this._columns.length; i++) {
     this.element.appendChild(this._columns[i].element);
