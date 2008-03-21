@@ -112,16 +112,13 @@ function MediaGrid() {
   this._rows = [];
   this._position = 0;
   this._scrollbar.setAttribute('curpos', this._position);
-
-  while (this._body.boxObject.height < document.documentElement.boxObject.height) {
-    var row = new Row();
-    this._rows.push(row);
-    this._body.appendChild(row.element);
-  }
-
   this._scrollbar.setAttribute('maxpos', 
       window.mediaPage.mediaListView.length);
+
+  this._fillScreenWithRows();
+
   this.scrollTo(this._position);
+  
   var self = this;
   /*
   this._scrollbar.addEventListener('mousedown', function(event) { self._update(); }, false);
@@ -131,6 +128,17 @@ function MediaGrid() {
   window.setInterval(function(){self._update()}, 100);
 }
 MediaGrid.prototype = {}
+MediaGrid.prototype._fillScreenWithRows =
+function MediaGrid_fillScreenWithRows() {
+  var addedRows = false;
+  while (this._body.boxObject.height < document.documentElement.boxObject.height) {
+    var row = new Row();
+    this._rows.push(row);
+    this._body.appendChild(row.element);
+    addedRows = true;
+  }
+  return addedRows;
+}
 MediaGrid.prototype.scrollTo = 
 function MediaGrid_scrollTo(index) {
   dump('scrollTo('+index+')\n');
@@ -148,9 +156,23 @@ function MediaGrid_update() {
     this.scrollTo(pos);
   }
 }
+MediaGrid.prototype.windowResized =
+function MediaGrid_windowResized() {
+  // FIXME: why don't we get called until the resize is complete 
+  // (on Linux at least)
+
+  // when the window is resized we need to make sure we've got enough rows
+  // to cover the whole screen. perhaps we should throw away rows we no
+  // longer need, but that's too hard to write at 1:30am.
+  if (this._fillScreenWithRows()) {
+    // fill all our rows if we made new rows
+    this.scrollTo(this._position);
+  }
+}
 
 var grid = null;
-window.addEventListener('load', function() { grid = new MediaGrid();}, false);
+window.addEventListener('load', function() { grid = new MediaGrid(); }, false);
+window.addEventListener('resize', function() { grid.windowResized(); }, false);
 
 
 
