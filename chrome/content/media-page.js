@@ -24,7 +24,6 @@ function LabelCell(property, width, transform) {
   this.element = document.createElement('label');
   if (width != undefined) {
     this.element.setAttribute('width', width);
-    this.element.setAttribute('maxwidth', width);
     this.element.setAttribute('crop', 'end');
   }
   this.setMediaItem = function setMediaItem(mediaItem) {
@@ -36,12 +35,27 @@ function LabelCell(property, width, transform) {
   }
 }
 
+function ButtonCell(property, width, transform) {
+  this.element = document.createElement('button');
+  if (width != undefined) {
+    this.element.setAttribute('width', width);
+    this.element.setAttribute('crop', 'end');
+  }
+  this.setMediaItem = function setMediaItem(mediaItem) {
+    var value = mediaItem.getProperty(property);
+    if (transform) {
+      value = transform(value);
+    }
+    this.element.setAttribute('label', value);
+  }
+}
+
 function create_columns() {
   return [
     new LabelCell(SBProperties.trackNumber, 30),
     new LabelCell(SBProperties.trackName, 150), 
     new LabelCell(SBProperties.albumName, 150),
-    new LabelCell(SBProperties.artistName), 
+    new ButtonCell(SBProperties.artistName), 
     new LabelCell(SBProperties.duration, 50),
   ];
 }
