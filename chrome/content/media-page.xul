@@ -40,8 +40,6 @@
 
   <hbox flex="1" style="width:100%">
     <vbox flex="1" style="overflow:hidden;max-height:100%">
-      <hbox id="header" style="height:20px">
-      </hbox>
       <vbox id="body">
       </vbox>
     </vbox>
