@@ -1,0 +1,4 @@
+<!ENTITY custom-xul-view.helloworld.label "Do HelloWorld">
+<!ENTITY custom-xul-view.helloworld.accesskey "H">
+<!ENTITY custom-xul-view.pane.label "This is a Display Pane">
+<!ENTITY custom-xul-view.pane.button "Learn More">

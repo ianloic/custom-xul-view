@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#"
+     xmlns:songbird="http://www.songbirdnest.com/2007/addon-metadata-rdf#">
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>custom-xul-view@ianloic.com</em:id>
+    <em:type>2</em:type>
+    <em:name>Custom XUL View</em:name>
+    <em:version>1.0.0.0</em:version>
+    <em:creator>Ian McKellar</em:creator>
+
+    <em:description>A custom xul media view</em:description>
+
+    <em:targetApplication>
+      <Description>
+        <em:id>songbird@songbirdnest.com</em:id>
+        <em:minVersion>0.5pre</em:minVersion>
+        <em:maxVersion>0.6pre</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+
+    <!-- Register a custom media page.
+         See http://songbirdnest.com/add-on-api/articles/media-pages -->
+    <songbird:mediaPage>
+      <Description>
+        <songbird:contentTitle>Custom XUL View</songbird:contentTitle>
+        <songbird:contentUrl>chrome://custom-xul-view/content/media-page.xul</songbird:contentUrl>
+      </Description>
+    </songbird:mediaPage>
+
+  </Description>
+</RDF>

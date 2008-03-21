@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin" type="text/css"?>
+<?xml-stylesheet href="chrome://songbird/skin/songbird.css" type="text/css"?>
+<?xml-stylesheet href="chrome://songbird/content/bindings/bindings.css" type="text/css"?>
+
+<?xml-stylesheet href="chrome://custom-xul-view/skin/media-page.css" type="text/css"?>
+
+<!DOCTYPE page SYSTEM "chrome://songbird/locale/songbird.dtd" >
+
+<!-- Import the standard scripts and overlays for all media pages.
+     Required for the playlist and other widgets to function correctly. -->
+<?xul-overlay href="chrome://songbird/content/xul/mediaPageOverlay.xul"?>
+
+
+<!--
+ 
+  HTML View Media Page 
+  
+  A custom viewer for sbIMediaListViews.  Shows a media list as a plain 
+  table using the sb-playlist XBL widget.
+
+  This page is registered with sbIMediaPageManager and loaded by the
+  sbTabBrowser widget.
+  
+  For more information see http://developer.songbirdnest.com/add-on-api/
+  
+  -->
+<page
+  id="custom-xul-view-media-page"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:rdf="http://www.w3.org/TR/WD-rdf-syntax#"
+  xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  onload="window.mediaPage.onLoad();"
+  onunload="window.mediaPage.onUnload();"
+  windowtype="Songbird:MediaPage"
+  flex="1"
+>
+
+  <hbox flex="1" style="width:100%">
+    <vbox flex="1" style="overflow:hidden;max-height:100%">
+      <hbox id="header" style="height:20px">
+      </hbox>
+      <vbox id="body">
+      </vbox>
+    </vbox>
+    <scrollbar id="scrollbar" orient="vertical" />
+  </hbox>
+
+  <script type="application/x-javascript" src="media-page.js" />
+
+</page>
