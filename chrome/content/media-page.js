@@ -193,10 +193,6 @@ window.mediaPage = {
     // The sbIMediaListView that this page is to display
   _mediaListView: null,
     
-    // The sb-playlist XBL binding
-  _playlist: null, 
-    
-  
   /** 
    * Gets the sbIMediaListView that this page is displaying
    */
@@ -233,12 +229,6 @@ window.mediaPage = {
       return;
     } 
     
-    this._playlist = document.getElementById("playlist");
-    
-    //
-    // TODO: Do something interesting here!
-    //
-    
     // Get playlist commands (context menu, keyboard shortcuts, toolbar)
     // Note: playlist commands currently depend on the playlist widget.
     var mgr =
@@ -246,8 +236,6 @@ window.mediaPage = {
                 .createInstance(Components.interfaces.sbIPlaylistCommandsManager);
     var cmds = mgr.request(kPlaylistCommands.MEDIAITEM_DEFAULT);
     
-    // Set up the playlist widget
-    //this._playlist.bind(this._mediaListView, cmds);
   },
     
     
@@ -255,10 +243,6 @@ window.mediaPage = {
    * Called as the window is about to unload
    */
   onUnload:  function(e) {
-    if (this._playlist) {
-      this._playlist.destroy();
-      this._playlist = null;
-    }
   },
     
   
@@ -275,7 +259,7 @@ window.mediaPage = {
    * Called when something is dragged over the tabbrowser tab for this window
    */
   canDrop: function(aEvent, aSession) {
-    return this._playlist.canDrop(aEvent, aSession);
+    return false;
   },
     
   
@@ -283,9 +267,7 @@ window.mediaPage = {
    * Called when something is dropped on the tabbrowser tab for this window
    */
   onDrop: function(aEvent, aSession) {
-    return this._playlist.
-        _dropOnTree(this._playlist.mediaListView.length,
-                Ci.sbIMediaListViewTreeViewObserver.DROP_AFTER);
+    return false;
   }
     
       
