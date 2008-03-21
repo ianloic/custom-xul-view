@@ -93,12 +93,13 @@ function MediaGrid() {
 
   this._scrollbar.setAttribute('maxpos', 
       window.mediaPage.mediaListView.length);
-  this._scrollbar.addEventListener('scroll', function(event) {
-      alert('scroll');
-      }, false);
-
   this.scrollTo(this._position);
   var self = this;
+  /*
+  this._scrollbar.addEventListener('mousedown', function(event) { self._update(); }, false);
+  this._scrollbar.addEventListener('mousemove', function(event) { self._update(); }, false);
+  this._scrollbar.addEventListener('mouseup', function(event) { self._update(); }, false);
+  */
   window.setInterval(function(){self._update()}, 100);
 }
 MediaGrid.prototype = {}
