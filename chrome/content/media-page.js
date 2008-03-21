@@ -50,13 +50,41 @@ function ButtonCell(property, width, transform) {
   }
 }
 
+function CommandButtonCell(label, callback) {
+  this.element = document.createElement('button');
+  this.element.setAttribute('label', label);
+  this.setMediaItem = function setMediaItem(mediaItem) {
+    this._mediaItem = mediaItem;
+  }
+  var self = this;
+  this.element.addEventListener('command', function(event) { callback(self._mediaItem); }, false);
+}
+
+function on_download(mediaItem) {
+  alert('download: '+mediaItem.getProperty(SBProperties.contentURL));
+}
+
+function transform_duration(duration) {
+  // get a whole number of seconds
+  duration = parseInt(parseInt(duration)/1000000);
+  // how many minutes is that?
+  var minutes = Math.floor(duration/60);
+  // and how many seconds?
+  var seconds = duration%60;
+  // pad the seconds with zeros
+  if (seconds < 10) seconds = '0'+seconds;
+  // display the result in the format we know and love
+  return minutes + ':' + seconds;
+}
+
 function column_factory() {
   return [
     new LabelCell(SBProperties.trackNumber, 30),
     new LabelCell(SBProperties.trackName, 150), 
     new LabelCell(SBProperties.albumName, 150),
-    new ButtonCell(SBProperties.artistName), 
-    new LabelCell(SBProperties.duration, 50),
+    new LabelCell(SBProperties.artistName, 150), 
+    new LabelCell(SBProperties.duration, 50, transform_duration),
+    new CommandButtonCell('Download', on_download),
   ];
 }
 
