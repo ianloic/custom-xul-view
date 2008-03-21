@@ -12,34 +12,53 @@ if (!window.LibraryUtils)
   Cu.import("resource://app/jsmodules/sbLibraryUtils.jsm");
 if (!window.kPlaylistCommands) 
   Cu.import("resource://app/jsmodules/kPlaylistCommands.jsm");
- 
-var columns = [
-  SBProperties.trackNumber,
-  SBProperties.trackName, 
-  SBProperties.albumName,
-  SBProperties.artistName, 
-  SBProperties.duration
-];
+
+
+/* cell classes should look like this */
+function Cell() { }
+Cell.prototype={}
+Cell.prototype.setMediaItem = function Cell_setMediaItem(mediaItem) { }
+Cell.prototype.element = undefined; /* DOM element */
+
+function LabelCell(property, width, transform) {
+  this.element = document.createElement('label');
+  if (width != undefined) {
+    this.element.setAttribute('width', width);
+    this.element.setAttribute('maxwidth', width);
+    this.element.setAttribute('crop', 'end');
+  }
+  this.setMediaItem = function setMediaItem(mediaItem) {
+    var value = mediaItem.getProperty(property);
+    if (transform) {
+      value = transform(value);
+    }
+    this.element.setAttribute('value', value);
+  }
+}
+
+function create_columns() {
+  return [
+    new LabelCell(SBProperties.trackNumber, 30),
+    new LabelCell(SBProperties.trackName, 150), 
+    new LabelCell(SBProperties.albumName, 150),
+    new LabelCell(SBProperties.artistName), 
+    new LabelCell(SBProperties.duration, 50),
+  ];
+}
 
 
 function Row() {
   this.element = document.createElement("hbox");
-  this._columns = []
+  this._columns = create_columns();
 
-  for (var i=0; i<columns.length; i++) {
-    this._addColumn();
+  for (var i=0; i<this._columns.length; i++) {
+    this.element.appendChild(this._columns[i].element);
   }
 }
 Row.prototype = {}
-Row.prototype._addColumn = function () {
-  var button = document.createElement('button');
-  button.setAttribute('label', '');
-  this._columns.push(button);
-  this.element.appendChild(button);
-}
 Row.prototype.setMediaItem = function (mediaItem) {
-  for (var i=0; i<columns.length; i++) {
-    this._columns[i].setAttribute('label', mediaItem.getProperty(columns[i]));
+  for (var i=0; i<this._columns.length; i++) {
+    this._columns[i].setMediaItem(mediaItem);
   }
 }
 
@@ -51,12 +70,6 @@ function MediaGrid() {
   this._rows = [];
   this._position = 0;
   this._scrollbar.setAttribute('curpos', this._position);
-
-  for (var i=0; i<columns.length; i++) {
-    var button = document.createElement('button');
-    button.setAttribute('label', columns[i]);
-    this._header.appendChild(button);
-  }
 
   while (this._body.boxObject.height < document.documentElement.boxObject.height) {
     var row = new Row();
