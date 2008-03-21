@@ -146,6 +146,7 @@ function MediaGrid_scrollTo(index) {
     var item = window.mediaPage.mediaListView.getItemByIndex(index+i);
     dump('setting row '+i+' to item: '+item.guid+'\n');
     this._rows[i].setMediaItem(item);
+    this._rows[i].element.className = ((index+i)%2)?'odd':'even';
   }
 }
 MediaGrid.prototype._update =

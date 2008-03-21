@@ -2,3 +2,7 @@
   background-color: red;
   height: 200px;
 }
+
+#mediagrid .odd {
+  background-color: #1a1a1a;
+}
