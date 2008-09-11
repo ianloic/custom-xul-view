@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<bindings xmlns="http://www.mozilla.org/xbl"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+          xmlns:xbl="http://www.mozilla.org/xbl">
+
+  <binding id="rating">
+    <content>
+      <xul:vbox flex="1" style="overflow:hidden;max-height:100%" anonid="container">
+        <xul:vbox anonid="body">
+        </xul:vbox>
+      </xul:vbox>
+      <xul:scrollbar anonid="scrollbar" orient="vertical" />
+    </content>
+    <implementation>
+      <constructor><![CDATA[
+        this._container = document.getAnonymousElementByAttribute(this, 'anonid', 'container');
+        this._body = document.getAnonymousElementByAttribute(this, 'anonid', 'body');
+        this._scrollbar = document.getAnonymousElementByAttribute(this, 'anonid', 'scrollbar');
+        this._rows = [];
+        this._position = 0;
+        this._scrollbar.setAttribute('curpos', this._position);
+        this._scrollbar.setAttribute('maxpos', 
+            window.mediaPage.mediaListView.length);
+
+        this._fillContainerWithRows();
+
+        this.scrollTo(this._position);
+        
+        var self = this;
+        /*
+        this._scrollbar.addEventListener('mousedown', function(event) { self._update(); }, false);
+        this._scrollbar.addEventListener('mousemove', function(event) { self._update(); }, false);
+        this._scrollbar.addEventListener('mouseup', function(event) { self._update(); }, false);
+        */
+        window.setInterval(function(){self._update()}, 100);
+       ]]>
+      </constructor>
+      <method name="_fillContainerWithRows">
+        <body><![CDATA[
+          var addedRows = false;
+          while (this._body.boxObject.height < this._container.boxObject.height) {
+            var row = new Row();
+            this._rows.push(row);
+            this._body.appendChild(row.element);
+            addedRows = true;
+          }
+          return addedRows;
+        ]]>
+        </body>
+      </method>
+      <method name="scrollTo">
+        <parameter name="position"/>
+        <body><![CDATA[
+          for (var i=0; i<this._rows.length; i++) {
+            var item = window.mediaPage.mediaListView.getItemByIndex(index+i);
+            dump('setting row '+i+' to item: '+item.guid+'\n');
+            this._rows[i].setMediaItem(item);
+            this._rows[i].element.className = ((index+i)%2)?'odd':'even';
+          }
+        ]]>
+        </body>
+      </method>
+      <method name="_update">
+        <body><![CDATA[
+          var pos = parseInt(this._scrollbar.getAttribute('curpos'));
+          if (pos != this._position) {
+            this._position = pos;
+            this.scrollTo(pos);
+          }
+        ]]></body>
+      </method>
+    </implementation>
+
+    <handlers>
+      <handler event="mousedown" phase="capturing">
+       <![CDATA[
+       ]]>
+      </handler>
+    </handlers>
+  </binding>
+</bindings>
+
+
+
+

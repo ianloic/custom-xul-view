@@ -38,13 +38,20 @@
   flex="1"
 >
 
-  <hbox flex="1" style="width:100%">
-    <vbox flex="1" style="overflow:hidden;max-height:100%" id="mediagrid">
-      <vbox id="body">
-      </vbox>
-    </vbox>
-    <scrollbar id="scrollbar" orient="vertical" />
-  </hbox>
+  <mediagrid>
+    <mediarow>
+      <gridlabel property="label=http://songbirdnest.com/data/1.0#" />
+      <gridlabel property="label=http://songbirdnest.com/data/1.0#" />
+      <gridlabel property="label=http://songbirdnest.com/data/1.0#" />
+      <gridlabel property="label=http://songbirdnest.com/data/1.0#" />
+    </mediarow>
+  </mediagrid>
+
+  <mediagrid>
+    <hbox>
+      <label bind="label" label="http://songbirdnest.com/data/1.0#" />
+    </hbox>
+  </mediagrid>
 
   <script type="application/x-javascript" src="media-page.js" />
 
